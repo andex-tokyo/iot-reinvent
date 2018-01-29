@@ -7,6 +7,7 @@ require './models'
 enable :sessions
 
 get '/' do
+    @records = Record.all
     erb :index
 end
 
@@ -39,18 +40,18 @@ get '/signout' do
     redirect '/'
 end
 
-get '/post' do
-    erb :post
-end
-
-post '/post' do
-        author = Author.find_by(name: params[:author])
-        if author != nil
-            Post.create(userid: session[:user],authorid: author.id,url: params[:url],comment: params[:comment])
-        else
-            author = Author.create(name: params[:author])
-            Post.create(userid: session[:user],authorid: author.id,url: params[:url],comment: params[:comment])
+get '/send' do
+    record = Record.find_by(name: params[:name])
+    if record
+        if record.status == true
+            record.status = false
+            record.save
+            elsif record.status == false
+            record.status = true
+            record.save
         end
-            
+        
+    else
+        Record.create(name:params[:name],status:false)
+    end
 end
-
