@@ -1,21 +1,19 @@
+<% if session[:user] %>
 <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
     <th>ユーザー名</th>
-    <th>url</th>
-    <th>コメント</th>
-    <th>投稿者</th>
+    <th>状況</th>
     </thead>
     <tbody>
+    <% @records.each do |record| %>
     <tr>
-        <td>gahaku</td>
-        <td>https://www.youtube.com/watch?v=ELsRcOktPPc</td>
-          <td>ヒカキンうるせえ</td>
-          <td>ヒカキン</td>
+        <td><%= record.name %></td>
+        <% if record.status == false %>
+          <td>不在</td>
+        <% elsif record.status == true %>
+          <td>在宅</td>
+        <% end %>
     </tr>
-    <tr>
-        <td>gahaku</td>
-        <td>https://www.youtube.com/watch?v=MhFXdXH0Njk</td>
-          <td>ヒカキンうらやましい</td>
-          <td>ヒカキン</td>
-    </tr>
+    <% end %>
+<% end %>
